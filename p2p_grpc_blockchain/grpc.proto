@@ -1,0 +1,39 @@
+syntax= "proto3";
+
+service Discovery {
+    rpc ExchangeNode(Node) returns (Node);
+    rpc Hello(Message) returns (Message);
+}
+
+service Synchronization{
+    rpc BlockFrom(Message) returns (Block);
+    rpc BlockTo(Block) returns (Message);
+    rpc ExchangeBlock(Block) returns (Block);
+    rpc TransactionTo(Transaction) returns (Message);
+    rpc TransactionFrom(Message) returns (Transaction);
+}
+
+message Transaction{
+    string unixtime = 1;
+    bytes body = 2;
+    repeated string txhash = 3;
+}
+
+message Block{
+    uint64 height = 1;
+    string unixtime = 2;
+    string previoushash = 3;
+    string blockhash = 4;
+    string difficulty = 5;
+    string answer = 6;
+    repeated string txshash = 7;
+}
+
+message Node{
+    int32 number=1;
+    repeated bytes ipport=2;
+}
+
+message Message{
+    bytes value =1;
+}
